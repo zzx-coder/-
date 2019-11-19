@@ -1,6 +1,7 @@
 <template>
   <div class="login">
     <el-form ref="form" :model="map" class="login_form" label="right">
+      <h3 class="demonstration ydf">娱都服管理后台登录</h3>
       <el-form-item label="账号">
         <el-input v-model="map.username" placeholder="账号"></el-input>
       </el-form-item>
@@ -36,20 +37,29 @@ export default {
         "map": this.map
       }).then(res => {
         // console.log(res)
-        if(res.data.subMessage == '账号或密码不正确'){
-          this.$message.error('错了哦，这是一条错误消息');
-        }else if(res.data.subMessage == '"{0}接口请求成功"'){
+        if(res.data.subMessage != '{0}接口请求成功'){
+          this.$message.error(res.data.subMessage);
+        }else{
           this.$router.push({path:'index',params: {username: this.map.username}})
         }
       })
     },
     jizhu(e){
       localStorage.jizhu = e
-      if(e){
-        localStorage.login = this.map
+      if(e == true){
+        localStorage.login = JSON.stringify(this.map)
       }else{
-        localStorage.clear()
+        localStorage.login = ''
       }
+    }
+  },
+  created () {
+    if(localStorage.login){
+      this.map = eval('('+ localStorage.login +')')
+    }
+    if(localStorage.jizhu == 'true'){
+      this.ji_type = true
+      // console.log(this.ji_type)
     }
   }
 };
@@ -61,5 +71,8 @@ export default {
   margin: 50px auto;
   box-shadow: 0 0 3vw 2vw #eee;
   padding: 5vw;
+}
+.ydf{
+  text-align: center;
 }
 </style>

@@ -1,14 +1,13 @@
 <template>
-  <div class="inde">
-    <video />
+  <div class="video">
+
   </div>
 </template>
 
 <script>
-import video from './video.vue'
 export default {
-  components: {
-    video,
+  created () {
+    // this.axios.
   }
 }
 </script>
